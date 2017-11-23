@@ -1,17 +1,24 @@
 import React from 'react';
+import AceEditor from 'react-ace';
+import { isIdentifier } from './utils/Validations';
 
 import './App.css';
 
 class App extends React.Component {
+  onChange = (value) => {
+    console.log(isIdentifier(value));
+  };
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <AceEditor
+          mode="java"
+          theme="github"
+          onChange={this.onChange}
+          name="Java Synatax Analysis"
+          editorProps={{ $blockScrolling: true }}
+        />,
       </div>
     );
   }
