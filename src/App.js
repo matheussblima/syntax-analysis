@@ -1,12 +1,13 @@
 import React from 'react';
 import AceEditor from 'react-ace';
-import { isIdentifier } from './utils/Validations';
+import { getToken, setToken } from './utils/Token';
 
 import './App.css';
 
 class App extends React.Component {
   onChange = (value) => {
-    console.log(isIdentifier(value));
+    console.log(setToken(value));
+    console.log(getToken());
   };
 
   render() {
