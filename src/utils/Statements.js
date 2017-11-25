@@ -1,26 +1,28 @@
 import { isIdentifier } from './Validations';
 import { primitiveTypes } from './Type';
 
+import { getToken } from './Token';
+
 export default () => {};
 
-// declaration-statement: local-variable-declaration ;
-const DeclarationStatement = (value) => {
-  if (LocalVariableDeclaration(value)) {
-    const newToken = getNewToken();
-    if (newToken === ';') {
-      // Tudo certo
-    }
-  }
-};
+// variable-declarator: identifier | identifier = variable-initializer
+const VariableDeclarator = value => isIdentifier(value);
 
 // local-variable-declaration: type variable-declarator {, variable-declarator}
 const LocalVariableDeclaration = (value) => {
   if (primitiveTypes(value)) {
-    const newToken = getNewToken();
+    const newToken = getToken();
     return VariableDeclarator(newToken);
   }
   return false;
 };
 
-// variable-declarator: identifier | identifier = variable-initializer
-const VariableDeclarator = value => isIdentifier(value);
+// declaration-statement: local-variable-declaration ;
+const DeclarationStatement = (value) => {
+  if (LocalVariableDeclaration(value)) {
+    const newToken = getToken();
+    if (newToken === ';') {
+      // Tudo certo
+    }
+  }
+};

@@ -17,4 +17,5 @@ export const getToken = () => {
   if (!newCommand) {
     return command.pop();
   }
+  return null;
 };
