@@ -1,8 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import lexer from 'node-c-lexer';
 
-ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+
+const code = `
+  int x = 900;
+`;
+
+const token = lexer.lexUnit.tokenize(code);
+console.log(token);
