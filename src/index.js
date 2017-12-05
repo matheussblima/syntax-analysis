@@ -20,8 +20,8 @@ const findNextCloseBracketIndex = (token) => {
     }
   });
   if (openBracketCount !== closeBracketCount) {
-    return null;
     console.log('Erro! Chaves não estão balanceadas!');
+    return null;
   }
   if (closeBracketIndex === null && openBracketCount == 0) {
     console.log('Não há abertura de chaves para o if');
