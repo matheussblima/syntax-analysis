@@ -26,6 +26,11 @@ const extractNextBlock = (token) => {
   if (openP) {
     closeP = findNextCloseParenthesesIndex(token, openP);
   }
+
+  if (!closeP) {
+    // Parênteses não estão balanceados
+    return { cleanToken: null, pBlock: null };
+  }
   pBlock = token.slice(openP + 1, closeP);
 
   let tokenLeft = token.slice(0, openP);
@@ -51,13 +56,14 @@ const extractNextBlock = (token) => {
 
 
 const expressionParser = (token, { errors }) => {
-  console.log('expression token');
-  console.log(token);
   const pBlocks = [];
 
   while (hasParentheses(token)) {
-    console.log('Has parentesis');
     const { cleanToken, pBlock } = extractNextBlock(token);
+    if (cleanToken === null) {
+      // Inválido, já que os parênteses não estão balanceados
+      return false;
+    }
     token = cleanToken;
     pBlocks.push(pBlock);
   }
@@ -90,7 +96,6 @@ const expressionParser = (token, { errors }) => {
     isBlocksValids = isBlocksValids && expressionParser(block, { errors });
   });
 
-  console.log({ isTokenValid });
 
   return isTokenValid && isBlocksValids;
 }

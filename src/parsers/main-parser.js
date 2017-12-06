@@ -59,7 +59,6 @@ const mainParser = (token, errors = []) => {
       const block = token.slice(0, endIndex + 1);
       blocks.varAssignments.push(block);
       token = token.slice(endIndex + 1);
-      console.log(blocks.varAssignments);
     }
     else {
       errors.push(createError('Não foi possível identificar a expressão', token[0].row));
