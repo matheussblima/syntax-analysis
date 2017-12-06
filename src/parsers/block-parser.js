@@ -1,25 +1,26 @@
 import { contains } from 'underscore';
 
-import ifParser from './if-parser';
+import whileParser from './while-parser';
 import varDeclarationParser from './var-declaration-parser';
 import varAssignmentParser from './var-assignment-parser';
 import { findNextCloseBracketIndex, isExpressionStart, createError, VARIABLE_TYPES } from '../utils';
 
 const blockParser = (token, errors = []) => {
   const blocks = {
-    if: [],
+    while: [],
     varDeclarations: [],
     varAssignments: [],
   };
   // Separando o token por tipo de parser
   while (token.length !== 0) {
-    if (token[0].lexeme === 'if') {
+    // Empilhando todos os blocos de código do tipo "while"
+    if (token[0].lexeme === 'while') {
       const endIfIndex = findNextCloseBracketIndex(token);
       if (!endIfIndex) {
         return;
       }
-      const ifBlock = token.slice(0, endIfIndex + 1);
-      blocks.if.push(ifBlock);
+      const whileBlock = token.slice(0, endIfIndex + 1);
+      blocks.while.push(whileBlock);
       token = token.slice(endIfIndex + 1);
     } else if (contains(VARIABLE_TYPES, token[0].lexeme)) {
       let startVarDeclarationIndex = 0;
@@ -65,10 +66,10 @@ const blockParser = (token, errors = []) => {
       return;
     }
   }
-  // Executando o parser 'if' para todos os blocos 'ifs' previamente separados (Recursivamente)
+  // Executando o parser 'while' para todos os blocos 'while' previamente empilhados (Recursivamente)
   let parserStatus = true;
-  blocks.if.forEach(ifBlock => {
-    parserStatus = parserStatus && ifParser(ifBlock, {
+  blocks.while.forEach(whileBlock => {
+    parserStatus = parserStatus && whileParser(whileBlock, {
       parsers: {
         blockParser,
       },

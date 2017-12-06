@@ -1,21 +1,21 @@
 import { createError } from '../utils';
 
-const isIfExpressionValid = (ifExpressionToken) => true;
+const isWhileExpressionValid = (whileExpressionToken) => true;
 
-const ifParser = (token, { parsers: { blockParser }, errors }) => {
+const whileParser = (token, { parsers: { blockParser }, errors }) => {
   if (token.length === 0) {
     return true;
   }
 
   let i;
   let openPIndex, closePIndex, openBIndex, closeBIndex;
-  if (token[0].lexeme !== 'if') {
-    errors.push(createError("Erro: está faltando um 'if'", token[0].row));
-    return;
+  if (token[0].lexeme !== 'while') {
+    errors.push(createError("Erro: está faltando um 'while'", token[0].row));
+    return false;
   }
   if (token[1].lexeme !== '(') {
     errors.push(createError("Erro: está faltando um '('", token[1].row));
-    return;
+    return false;
   }
   openPIndex = 1;
 
@@ -25,7 +25,7 @@ const ifParser = (token, { parsers: { blockParser }, errors }) => {
   while (i < token.length && !closePIndex) {
     if (token[i].lexeme === '{') {
       errors.push(createError("Erro: está faltando um ')'", token[i].row));
-      return;
+      return false;
     }
     if (token[i].lexeme === ')' && token[i + 1]) {
       if (token[i + 1].lexeme === '{') {
@@ -33,7 +33,7 @@ const ifParser = (token, { parsers: { blockParser }, errors }) => {
         openBIndex = i + 1;
       } else {
         errors.push(createError("Erro: está faltando um '{' após a expressao do if", token[i].row));
-        return;
+        return false;
       }
     }
     i++;
@@ -42,14 +42,14 @@ const ifParser = (token, { parsers: { blockParser }, errors }) => {
 
   // Encontrando o fechamento do parenteses
   if (!closePIndex) {
-    errors.push(createError("Erro: está faltando um ')' logo após o if", token[0].row));
-    return;
+    errors.push(createError("Erro: está faltando um ')' logo após o while", token[0].row));
+    return false;
   }
 
   // Encontrando a chave de abertura
   if (!openBIndex) {
-    errors.push(createError("Erro: está faltando um '{' após a expressao do if", token[0].row));
-    return;
+    errors.push(createError("Erro: está faltando um '{' após a expressao do while", token[0].row));
+    return false;
   }
 
   // Encontrando a chave de fechamento
@@ -62,20 +62,20 @@ const ifParser = (token, { parsers: { blockParser }, errors }) => {
   }
 
   if (!closeBIndex) {
-    errors.push(createError("Erro: está faltando um '}' após a expressao do if", token[0].row));
-    return;
+    errors.push(createError("Erro: está faltando um '}' após a expressao do while", token[0].row));
+    return false;
   }
 
-  const ifExpressionToken = token.slice(openPIndex + 1, closePIndex);
+  const whileExpressionToken = token.slice(openPIndex + 1, closePIndex);
   const ifBlockToken = token.slice(openBIndex + 1, closeBIndex);
 
 
-  if (!isIfExpressionValid(ifExpressionToken)) {
-    errors.push(createError("Erro: a condição booleana do if não é válida", token[0].row));
-    return;
+  if (!isWhileExpressionValid(whileExpressionToken)) {
+    errors.push(createError("Erro: a condição booleana do while não é válida", token[0].row));
+    return false;
   }
   return !!blockParser(ifBlockToken, errors);
 }
 
 
-export default ifParser;
+export default whileParser;

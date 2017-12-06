@@ -40,17 +40,13 @@ export const findNextCloseParenthesesIndex = (token, fromIndex = 0) => {
     }
   });
   if (openCount !== closeCount) {
-    console.log('Erro! Parenteses não estão balanceadas!');
     return null;
-  }
-  if (closeIndex === null && openCount == 0) {
-    // console.log('Não há abertura de  para o if');
   }
   return closeIndex;
 }
 
 export const isExpressionStart = (tokenItem) => {
-  let lexemes = ['if'];
+  let lexemes = ['while'];
   lexemes = lexemes.concat(VARIABLE_TYPES);
   return contains(lexemes, tokenItem.lexeme);
 }

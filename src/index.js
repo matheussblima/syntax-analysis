@@ -6,11 +6,11 @@ const code = `
   int main() {
     int x = 10;
     int z, y, z;
-    if (x == 0) {
+    while (x == 0) {
       int k = 99;
-      if (n == 99) {
+      while (n == 99) {
         float b = 10.1;
-        if (n == 100) {
+        while (n == 100) {
           float b = 100;
           n = x + 10 + (100 + 10 - (5 * 2 - ( 4 - 5))) + k + 100 - 20;
         }
