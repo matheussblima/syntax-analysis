@@ -18,11 +18,7 @@ export const findNextCloseBracketIndex = (token) => {
     }
   });
   if (openBracketCount !== closeBracketCount) {
-    console.log('Erro! Chaves não estão balanceadas!');
     return null;
-  }
-  if (closeBracketIndex === null && openBracketCount == 0) {
-    console.log('Não há abertura de chaves para o if');
   }
   return closeBracketIndex;
 }
@@ -44,7 +40,7 @@ export const findNextCloseParenthesesIndex = (token, fromIndex = 0) => {
     }
   });
   if (openCount !== closeCount) {
-    console.log('Erro! Parentesis não estão balanceadas!');
+    console.log('Erro! Parenteses não estão balanceadas!');
     return null;
   }
   if (closeIndex === null && openCount == 0) {

@@ -2,7 +2,7 @@ import { createError } from '../utils';
 
 const isIfExpressionValid = (ifExpressionToken) => true;
 
-const ifParser = (token, { parsers: { mainParser }, errors }) => {
+const ifParser = (token, { parsers: { blockParser }, errors }) => {
   if (token.length === 0) {
     return true;
   }
@@ -74,7 +74,7 @@ const ifParser = (token, { parsers: { mainParser }, errors }) => {
     errors.push(createError("Erro: a condição booleana do if não é válida", token[0].row));
     return;
   }
-  return !!mainParser(ifBlockToken, errors);
+  return !!blockParser(ifBlockToken, errors);
 }
 
 
