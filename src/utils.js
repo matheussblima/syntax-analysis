@@ -27,6 +27,32 @@ export const findNextCloseBracketIndex = (token) => {
   return closeBracketIndex;
 }
 
+export const findNextCloseParenthesesIndex = (token, fromIndex = 0) => {
+  let openCount = 0;
+  let closeCount = 0;
+  let closeIndex = null;
+  token.forEach((t, idx) => {
+    if (idx >= fromIndex) {
+      if (t.lexeme === '(') {
+        openCount++;
+      } else if (t.lexeme === ')') {
+        closeCount++;
+      }
+      if (closeIndex === null && openCount === closeCount && openCount !== 0) {
+        closeIndex = idx;
+      }
+    }
+  });
+  if (openCount !== closeCount) {
+    console.log('Erro! Parentesis não estão balanceadas!');
+    return null;
+  }
+  if (closeIndex === null && openCount == 0) {
+    // console.log('Não há abertura de  para o if');
+  }
+  return closeIndex;
+}
+
 export const isExpressionStart = (tokenItem) => {
   let lexemes = ['if'];
   lexemes = lexemes.concat(VARIABLE_TYPES);
