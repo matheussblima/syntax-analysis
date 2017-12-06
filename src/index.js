@@ -1,4 +1,3 @@
-import { findIndex, findLastIndex } from 'underscore';
 import lexer from 'node-c-lexer';
 import mainParser from './parsers/main-parser';
 

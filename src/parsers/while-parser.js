@@ -1,5 +1,7 @@
 import { createError } from '../utils';
 
+import expressionParser from './expression-parser';
+
 const isWhileExpressionValid = (whileExpressionToken) => true;
 
 const whileParser = (token, { parsers: { blockParser }, errors }) => {
@@ -70,8 +72,7 @@ const whileParser = (token, { parsers: { blockParser }, errors }) => {
   const ifBlockToken = token.slice(openBIndex + 1, closeBIndex);
 
 
-  if (!isWhileExpressionValid(whileExpressionToken)) {
-    errors.push(createError("Erro: a condição booleana do while não é válida", token[0].row));
+  if (!expressionParser(whileExpressionToken, { errors })) {
     return false;
   }
   return !!blockParser(ifBlockToken, errors);

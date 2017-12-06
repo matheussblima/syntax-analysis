@@ -78,7 +78,7 @@ describe("while", function () {
   it('while com sintaxe correta com os filhos com sintaxe correta deve PASSAR', () => {
     const code = `
       int main() {
-        while() {
+        while(x && z) {
           int x;
           while() {
             int n = 100;
@@ -139,9 +139,25 @@ describe("var-declaration-parser", function () {
   it('Declaração de variável com sintaxe errada deve FALHAR', () => {
     const code = `
       int main() {
-        int = 99 + 10;
+        int = 99;
       }
     `;
     assertFalse(code);
+  });
+  it('Declaração de variável com sintaxe errada deve FALHAR', () => {
+    const code = `
+      int main() {
+        int z =;
+      }
+    `;
+    assertFalse(code);
+  });
+  it('Declaração de variável com sintaxe errada deve FALHAR', () => {
+    const code = `
+      int main() {
+        int z = a;
+      }
+    `;
+    assertTrue(code);
   });
 });

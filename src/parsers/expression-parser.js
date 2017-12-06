@@ -55,6 +55,10 @@ const extractNextBlock = (token) => {
 }
 
 
+// (EXP) -> N
+// N + N -> N
+// N -> $
+
 const expressionParser = (token, { errors }) => {
   const pBlocks = [];
 
@@ -72,11 +76,11 @@ const expressionParser = (token, { errors }) => {
   token.forEach((tItem, idx) => {
     if (contains(['CONSTANT', 'IDENTIFIER'], tItem.tokenClass) && idx < token.length - 1) {
       const tokenClass = token[idx + 1].tokenClass;
-      if (idx < token.length && (!contains(['+', '-', '*', '/'], tokenClass))) {
+      if (idx < token.length && (!contains(['+', '-', '*', '/', 'AND_OP'], tokenClass))) {
         isTokenValid = false;
       }
     }
-    if (contains(['+', '-', '*', '/'], tItem.tokenClass)) {
+    if (contains(['+', '-', '*', '/', 'AND_OP'], tItem.tokenClass)) {
       if (idx < token.length - 1) {
         const tokenClass = token[idx + 1].tokenClass;
         if (idx < token.length && (!contains(['CONSTANT', 'IDENTIFIER'], tokenClass))) {

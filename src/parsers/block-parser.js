@@ -22,7 +22,7 @@ const blockParser = (token, errors = []) => {
       const whileBlock = token.slice(0, endIfIndex + 1);
       blocks.while.push(whileBlock);
       token = token.slice(endIfIndex + 1);
-    } else if (contains(VARIABLE_TYPES, token[0].lexeme)) {
+    } else if (contains(VARIABLE_TYPES, token[0].lexeme)) { // Buscando por declarações de variáveis
       let startVarDeclarationIndex = 0;
       let endVarDeclarationIndex;
       token.forEach((tokenItem, idx) => {
@@ -41,7 +41,7 @@ const blockParser = (token, errors = []) => {
       const varDeclarationBlock = token.slice(0, endVarDeclarationIndex + 1);
       blocks.varDeclarations.push(varDeclarationBlock);
       token = token.slice(endVarDeclarationIndex + 1);
-    } else if (token[0].tokenClass === 'IDENTIFIER') {
+    } else if (token[0].tokenClass === 'IDENTIFIER') { // Buscando por atribuição de variáveis
       let startIndex = 0;
       let endIndex;
       token.forEach((tokenItem, idx) => {
@@ -84,7 +84,7 @@ const blockParser = (token, errors = []) => {
     });
   });
 
-  // Executando o parser 'varDeclaration' para todos os blocos de declaração de variável
+  // Executando o parser 'varAssignments' para todos os blocos de atribuição de variável
   blocks.varAssignments.forEach(block => {
     parserStatus = parserStatus && varAssignmentParser(block, {
       errors,

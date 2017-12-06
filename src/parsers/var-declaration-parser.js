@@ -37,6 +37,10 @@ const varDeclarationParser = (token, { errors }) => {
       }
     }
     if (tItem.tokenClass === '=') {
+      if (idx >= cleanToken.length - 1) {
+        isValid = false;
+        return;
+      }
       const tokenClass = cleanToken[idx + 1].tokenClass;
       let expressionEndIndex = null;
       cleanToken.forEach((i, endIdx) => {
